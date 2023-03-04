@@ -557,6 +557,11 @@ inactive windows."
   :type '(repeat symbol)
   :group 'doom-modeline)
 
+(defcustom doom-modeline-header-line nil
+  "If non-nil, displays the modeline in the heaeder."
+  :type 'boolean
+  :group 'doom-modeline)
+
 
 ;;
 ;; Faces
@@ -1111,8 +1116,9 @@ Throws an error if it doesn't exist."
 If DEFAULT is non-nil, set the default mode-line for all buffers."
   (when-let ((modeline (doom-modeline key)))
     (setf (if default
-              (default-value 'mode-line-format)
-            mode-line-format)
+              (if doom-modeline-header-line (default-value 'header-line-format)
+                (default-value 'mode-line-format))
+            (if doom-modeline-header-line header-line-format mode-line-format))
           (list "%e" modeline))))
 
 
